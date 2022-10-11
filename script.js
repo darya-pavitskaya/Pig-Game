@@ -12,16 +12,29 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
+let scores, currentScore, activePlayer, playing;
+
 // Starting conditions
 
-score0El.textContent = 0; // переписываем стартовые результаты игроков
-score1El.textContent = 0;
-diceEl.classList.add('hidden'); // скрываем встроенный в разметку кубик
+const init = () => {
+  scores = [0, 0]; // глобаотный счетчик очков
+  currentScore = 0; // текущий счетчик очков
+  activePlayer = 0; // определяем текущего игрока
+  playing = true; // состояние игры
 
-const scores = [0, 0]; // глобаотный счетчик очков
-let currentScore = 0; // текущий счетчик очков
-let activePlayer = 0; // определяем текущего игрока
-let playing = true; // состояние игры
+  score0El.textContent = 0; // переписываем стартовые результаты игроков
+  score1El.textContent = 0;
+  current0El.textContent = 0;
+  current1El.textContent = 0;
+
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
+  diceEl.classList.add('hidden'); // скрываем встроенный в разметку кубик
+};
+
+init();
 
 const switchPlayer = () => {
   document.getElementById(`current--${activePlayer}`).textContent = 0; // текстовое содержимое обнуляем
@@ -56,7 +69,7 @@ btnHold.addEventListener('click', () => {
     document.getElementById(`score--${activePlayer}`).textContent =
       scores[activePlayer];
     // 2. проверка глобального счета игрока
-    if (scores[activePlayer] >= 20) {
+    if (scores[activePlayer] >= 100) {
       playing = false;
       diceEl.classList.add('hidden');
       document
@@ -71,3 +84,5 @@ btnHold.addEventListener('click', () => {
     // вызываем фукцию для переключения игрока
   }
 });
+
+btnNew.addEventListener('click', init);
